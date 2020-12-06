@@ -1,0 +1,977 @@
+{
+	"info": {
+		"_postman_id": "901b5e08-e675-4790-8eb0-60b6f9c3aa0c",
+		"name": "final-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get users (public)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fe7ec67-3c61-4ac0-81c9-de4304f7bccf",
+						"exec": [
+							"pm.test(\"get users 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac58f4ac-2013-4b3b-9d92-28e963ea7e41",
+						"exec": [
+							"pm.test(\"create boat 201\", function (){",
+							"    pm.response.to.have.status(201);",
+							"})",
+							"",
+							"pm.test(\"all data is there\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"name\"], \"test\");",
+							"    pm.expect(result[\"length\"], \"20\")",
+							"    pm.expect(result[\"type\"], \"sale boat\");",
+							"    pm.environment.set(\"boat\", result[\"id\"])",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"test\",\n    \"length\": \"20\",\n    \"type\": \"sale boat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/boats",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat 401 (missing jwt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f548bdaf-b44d-4b71-a3f5-6ac8060094a1",
+						"exec": [
+							"pm.test(\"create boat 401\", function (){",
+							"    pm.response.to.have.status(401);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boats",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create boat 406",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61ad31a3-c172-4621-8c77-34aa986296ea",
+						"exec": [
+							"pm.test(\"create boat 406\", function (){",
+							"    pm.response.to.have.status(406);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/pdf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "test",
+					"options": {
+						"raw": {
+							"language": "html"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/boats",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create boat 405",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc0a2257-bdcd-4fb7-a76b-d8976a5b4e80",
+						"exec": [
+							"pm.test(\"create boat 405\", function (){",
+							"    pm.response.to.have.status(405);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"test\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/boats",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get boats 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4dc7e788-9b6c-4c67-8396-403d24fe995f",
+						"exec": [
+							"pm.test(\"create boat 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"validate owner\", function(){",
+							"    resp = pm.response.json();",
+							"    for (var i = 0; i < resp[\"results\"].length; i++) {",
+							"        pm.expect(resp[\"results\"][i][\"owner\"], pm.environment.get(\"valid_username\"))",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one boat 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c78c713-d81b-42c4-8e57-9fe059b65e54",
+						"exec": [
+							"pm.test(\"get boat 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one boat 403",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "84ac2d88-ca3a-462e-9ba5-b47185b8ccc1",
+						"exec": [
+							"pm.test(\"get boat 403\", function (){",
+							"    pm.response.to.have.status(403);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{forbidden_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid JWT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a0383d24-0fb4-4921-9e14-14a1584becb5",
+						"exec": [
+							"pm.test(\"invalid jwt 422\", function (){",
+							"    pm.response.to.have.status(422);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}I"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one boat 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f92d5635-ce37-412d-a264-1a819a310c27",
+						"exec": [
+							"pm.test(\"get boat 404\", function (){",
+							"    pm.response.to.have.status(404);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch boat 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c87648d6-0c85-4ad3-9d5a-9f98ba5bfaf4",
+						"exec": [
+							"pm.test(\"patch boat 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"all data is there\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"name\"], \"patched\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"patched\",\n    \"length\": 20,\n    \"type\": \"sale boat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch boat 403",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f63e8177-58a4-4b5c-ad8d-7ec5c38f67c6",
+						"exec": [
+							"pm.test(\"patch boat 403\", function (){",
+							"    pm.response.to.have.status(403);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{forbidden_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"patched\",\n    \"length\": 20,\n    \"type\": \"sale boat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create load 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "22067c9b-2cd3-4590-9b2b-94f262bcf289",
+						"exec": [
+							"pm.test(\"create load 201\", function (){",
+							"    pm.response.to.have.status(201);",
+							"})",
+							"",
+							"pm.test(\"all data is there\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"weight\"], \"10\");",
+							"    pm.expect(result[\"content\"], \"fish\")",
+							"    pm.expect(result[\"delivery_date\"], \"2020-10-5\");",
+							"    pm.environment.set(\"load\", result[\"id\"])",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"weight\": \"10\",\n    \"content\": \"fish\",\n    \"delivery_date\": \"2020-10-5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/loads",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get loads 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97fac486-a088-4cba-8387-f12ec1c1efcd",
+						"exec": [
+							"pm.test(\"get loads 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/loads",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one load 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a49cc42e-4515-440b-8932-4b53998ba33d",
+						"exec": [
+							"pm.test(\"get one load 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/loads/{{load}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads",
+						"{{load}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch load 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "775788ab-697d-4710-8791-df9bbe12c3b5",
+						"exec": [
+							"pm.test(\"patch load 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"all data is there\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"weight\"], \"10\");",
+							"    pm.expect(result[\"content\"], \"patched\")",
+							"    pm.expect(result[\"delivery_date\"], \"2020-10-5\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"weight\": \"10\",\n    \"content\": \"patched\",\n    \"delivery_date\": \"2020-10-5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/loads/{{load}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads",
+						"{{load}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign load to boat 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b06cd16-fd7f-4975-b91d-25addf3d23a8",
+						"exec": [
+							"pm.test(\"assign load 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"boat is assigned\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"boat_id\"], pm.environment.get(\"boat\"));",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/loads/{{load}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads",
+						"{{load}}",
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "load assigned to boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01972b7e-4f5a-4a03-b8a5-ec443e4c80c2",
+						"exec": [
+							"pm.test(\"get boat 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"loads not empty in boat\", function(){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"loads\"].length).to.gt > 0",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unassign load from boat 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5c25634-2eca-4b09-a93f-ce29b85fbc2d",
+						"exec": [
+							"pm.test(\"assign load 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"load is unassigned\", function (){",
+							"    result = pm.response.json()",
+							"    pm.expect(result[\"boat_id\"], \"\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/loads/{{load}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads",
+						"{{load}}",
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete load 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "08de2054-0a01-4f86-9169-d2fe67a8a067",
+						"exec": [
+							"pm.test(\"delete load 204\", function (){",
+							"    pm.response.to.have.status(204);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/loads/{{load}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"loads",
+						"{{load}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete boat 403",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80d4b20c-206f-4a49-b2dd-d2a51a1215be",
+						"exec": [
+							"pm.test(\"delete boat 403\", function (){",
+							"    pm.response.to.have.status(403);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{forbidden_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete boat 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "27712c2b-0f0e-4004-ae09-31bdf3b0aee0",
+						"exec": [
+							"pm.test(\"delete boat 204\", function (){",
+							"    pm.response.to.have.status(204);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/boats/{{boat}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boats",
+						"{{boat}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b0f1738c-1eaf-419b-8c55-87f60c4ab803",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6a3fe066-cca2-443a-b452-7d8228dad653",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
